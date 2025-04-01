@@ -22,6 +22,7 @@ L'objectif est de créer une architecture scalable avec 2 instances Symfony, une
 5. **Mettre en place des mesures de cybersécurité** pour protéger les services et les données.
 
 ---
+## Voici une vue d'ensemble de l'architecture:
 
 ##  Architecture du projet
 L'architecture comprend les éléments suivants :
@@ -30,8 +31,6 @@ L'architecture comprend les éléments suivants :
 - **HAProxy** comme load balancer qui répartit les requêtes HTTP entre les 2 instances Symfony.
 
 ---
-
-## Voici une vue d'ensemble de l'architecture:
 
 ### **🔧 Étapes du projet**
 
