@@ -31,9 +31,9 @@ L'architecture comprend les éléments suivants :
 
 ---
 
-## Voici une vue d'ensemble de l'architecture :
+## Voici une vue d'ensemble de l'architecture:
 
-## **🔧 Étapes du projet**
+### **🔧 Étapes du projet**
 
 ### 1. **Préparation de l'environnement Docker**
 - Installer Docker et Docker Compose pour gérer l’infrastructure des conteneurs.
