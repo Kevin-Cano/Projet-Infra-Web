@@ -1,12 +1,12 @@
 # **Projet Symfony avec Docker, HAProxy et MariaDB**
 
-## ** Objectif du projet**
+##  Objectif du projet
 Ce projet consiste à mettre en place une infrastructure web complète à l'aide de **Docker**, **HAProxy**, **Symfony** et **MariaDB**.  
 L'objectif est de créer une architecture scalable avec 2 instances Symfony, une base de données MariaDB, et un load balancer HAProxy pour distribuer les requêtes. Nous allons aussi ajouter des mesures de sécurité pour assurer une haute disponibilité et protéger l’application contre les attaques.
 
 ---
 
-## ** Composants utilisés**
+## Composants utilisés
 - **Symfony** : Framework PHP pour le développement d'applications web.
 - **Docker** : Outil pour la conteneurisation de l'application et des services.
 - **HAProxy** : Load balancer pour équilibrer les requêtes entre les instances de Symfony.
@@ -14,7 +14,7 @@ L'objectif est de créer une architecture scalable avec 2 instances Symfony, une
 
 ---
 
-## ** Objectifs**
+##  Objectifs
 1. **Mettre en place une application Symfony** avec une base de données MariaDB.
 2. **Utiliser Docker** pour conteneuriser tous les services : Symfony, MariaDB et HAProxy.
 3. **Configurer HAProxy** pour distribuer les requêtes entre deux instances Symfony.
@@ -23,7 +23,7 @@ L'objectif est de créer une architecture scalable avec 2 instances Symfony, une
 
 ---
 
-## ** Architecture du projet**
+##  Architecture du projet
 L'architecture comprend les éléments suivants :
 - **2 instances Symfony** (web1 et web2), qui servent de backend pour traiter les requêtes des utilisateurs.
 - **MariaDB** comme base de données partagée entre les instances Symfony.
