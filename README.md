@@ -1,69 +1,76 @@
-# Comment run notre projet LuxWatch
+# **Projet Symfony avec Docker, HAProxy et MariaDB**
 
-## Les prérequis
+## ** Objectif du projet**
+Ce projet consiste à mettre en place une infrastructure web complète à l'aide de **Docker**, **HAProxy**, **Symfony** et **MariaDB**.  
+L'objectif est de créer une architecture scalable avec 2 instances Symfony, une base de données MariaDB, et un load balancer HAProxy pour distribuer les requêtes. Nous allons aussi ajouter des mesures de sécurité pour assurer une haute disponibilité et protéger l’application contre les attaques.
 
-### 1. Windows
+---
 
-- Docker desktop, que vous pourrez télécharger sur leur site [ici](https://www.docker.com/products/docker-desktop/).
+## ** Composants utilisés**
+- **Symfony** : Framework PHP pour le développement d'applications web.
+- **Docker** : Outil pour la conteneurisation de l'application et des services.
+- **HAProxy** : Load balancer pour équilibrer les requêtes entre les instances de Symfony.
+- **MariaDB** : Base de données relationnelle pour stocker les données de l'application.
 
-- PHP, que vous pourrez également télécharger sur leur site [ici](https://www.php.net/downloads.php).
+---
 
-- Symfony, que vous trouverez [ici](https://symfony.com/doc/current/setup.html).
+## ** Objectifs**
+1. **Mettre en place une application Symfony** avec une base de données MariaDB.
+2. **Utiliser Docker** pour conteneuriser tous les services : Symfony, MariaDB et HAProxy.
+3. **Configurer HAProxy** pour distribuer les requêtes entre deux instances Symfony.
+4. **Assurer une haute disponibilité** et sécuriser l'infrastructure.
+5. **Mettre en place des mesures de cybersécurité** pour protéger les services et les données.
 
-### 2. Linux
+---
 
-- Docker desktop, que vous pourrez télécharger sur leur site [ici](https://docs.docker.com/desktop/setup/install/linux/).
+## ** Architecture du projet**
+L'architecture comprend les éléments suivants :
+- **2 instances Symfony** (web1 et web2), qui servent de backend pour traiter les requêtes des utilisateurs.
+- **MariaDB** comme base de données partagée entre les instances Symfony.
+- **HAProxy** comme load balancer qui répartit les requêtes HTTP entre les 2 instances Symfony.
 
-- PHP, que vous pourrez également télécharger sur leur site [ici](https://www.php.net/manual/fr/install.unix.php).
+Voici une vue d'ensemble de l'architecture :
 
-- Symfony, que vous trouverez [ici](https://symfony.com/doc/current/setup.html). (Identique a l'installation sous windows)  
-  
-N'oubliez pas de lire correctement les documentations afin de tout installer sans encombre.
+---
 
-Pensez également a créer ces 2 fichiers a la racine du projet : 
-- ``.env.dev`` dans lequel vous devrez y mettre ceci ``APP_SECRET=4d68cecbcc634ee27ca944ad8fb44877`` 
-- ``.env.local`` dans lequel vous copierez le contenu du fichier ``.env.example`` en ajoutant les informations nécessaires. 
+## **🔧 Étapes du projet**
 
-Maintenant que nos prérequis sont installé, il n'y a plus qu'a démarrer notre site !
+### 1. **Préparation de l'environnement Docker**
+- Installer Docker et Docker Compose pour gérer l’infrastructure des conteneurs.
+- Créer un fichier `docker-compose.yml` pour orchestrer les services Symfony, MariaDB et HAProxy.
 
-## Lancement du projet
+### 2. **Configuration de HAProxy**
+- Configurer HAProxy pour écouter sur le port 80 et répartir les requêtes entre les deux instances de Symfony via le mécanisme de "round-robin".
+- Ajouter des règles de sécurité, comme limiter le nombre de connexions par seconde pour éviter les attaques DDoS.
 
-### 1. Windows
+### 3. **Création et configuration des instances Symfony**
+- Utiliser l’image PHP + Apache pour créer les conteneurs Symfony.
+- Configurer Symfony pour se connecter à MariaDB via une URL de connexion dans le fichier `.env`.
 
-Dans un premier temps, il vous faut lancer votre Docker desktop via le logiciel installé au préalable.  
-Puis, dans un second temps, lancer un Powershell ou une invite de commande. Déplacez vous dans le dossier contenant le projet en faisant ``cd \chemin\vers\le\projet\Projet-Symfony-Ecommerce\``
+### 4. **Base de données MariaDB**
+- Créer une base de données `symfony_db` et un utilisateur `symfony_user` avec des privilèges.
+- Configurer MariaDB dans Docker pour persister les données.
 
-Puis taper cette commande :
+### 5. **Sécurisation de l’infrastructure**
+- Appliquer des pratiques de sécurité telles que :
+  - Désactivation des privilèges `root` pour MariaDB.
+  - Configurer des volumes pour stocker les données de manière persistante.
+  - Ajouter des règles de sécurité dans HAProxy pour éviter les attaques par surcharge (DDoS).
+  - Mettre en place des logs pour surveiller les accès et tentatives d’intrusion.
 
-```powershell
-PS C: ...\...\Projet-Symfony-Ecommerce> .\setup-and-start.bat
-```
+### 6. **Test de l'infrastructure**
+- Vérifier que les requêtes sont bien équilibrées entre les deux serveurs Symfony.
+- Tester la réplication des données dans MariaDB et la résilience de l’application avec HAProxy.
 
-### 2. Linux
+---
 
-Sous linux, le lancement de Docker est un peu différent.  
-Ouvrez directement une invite de commande et taper cette commande :
-```bash
-sudo systemctl start docker
-```
+## **🔒 Mesures de sécurité**
+- **Désactivation du compte root dans MariaDB** pour éviter les risques d'élévation de privilèges.
+- **Configuration de HAProxy** pour gérer le SSL et forcer les connexions HTTPS.
+- **Limiter le nombre de connexions par IP** pour éviter les attaques DDoS.
+- **Logs et monitoring** pour suivre les tentatives d'accès et alerter en cas d'anomalie.
 
-Déplacez vous dans le bon dossier ``cd ...\...\Projet-Symfony-Ecommerce\``
-
-Puis taper cette commande : 
-
-```bash
-.\setup-and-start.sh
-```
-
-## Administration
-#### Comment accéder a la page administrateur ?
-
-Lorsque vous vous connectez, remplisser les champs avec les codes admin que vous aurez rentré au préalable dans votre ``.env.local`` puis rendez-vous sur la page ``/admin``.
-
-<div style="text-align: right;">
-
-## Crédit
-### Maxime CHORT
+---
+### Alexandre HOARAU
 ### Kevin CANO
 ### Brendan VISINE
-</div>
