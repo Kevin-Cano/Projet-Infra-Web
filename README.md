@@ -24,7 +24,7 @@ L'objectif est de créer une architecture scalable avec 2 instances Symfony, une
 ---
 ## Voici une vue d'ensemble de l'architecture:
 
-##  Architecture du projet
+###  **Architecture du projet**
 L'architecture comprend les éléments suivants :
 - **2 instances Symfony** (web1 et web2), qui servent de backend pour traiter les requêtes des utilisateurs.
 - **MariaDB** comme base de données partagée entre les instances Symfony.
