@@ -1,0 +1,96 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Administration{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('styles/admin.css') }}">
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/admin.js') }}"></script>
+{% endblock %}
+
+{% block body %}
+    <div class="dashboard-stats">
+        <div class="stat-card">
+            <div class="stat-number">{{ users|length }}</div>
+            <div class="stat-label">Utilisateurs</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">{{ users|filter(user => 'ROLE_ADMIN' in user.roles)|length }}</div>
+            <div class="stat-label">Administrateurs</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">{{ watches|length }}</div>
+            <div class="stat-label">Montres</div>
+        </div>
+    </div>
+
+    <div class="content-card">
+        <h1>Gestion des utilisateurs</h1>
+
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success">
+                {{ message }}
+            </div>
+        {% endfor %}
+
+        {% for message in app.flashes('error') %}
+            <div class="alert alert-error">
+                {{ message }}
+            </div>
+        {% endfor %}
+
+        <table class="users-table">
+            <thead>
+                <tr>
+                    <th>Nom d'utilisateur</th>
+                    <th>Email</th>
+                    <th>Rôle</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                    <tr>
+                        <td>{{ user.userName }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>
+                            {% if user.email == app.user.email %}
+                                <span class="badge badge-admin">Vous</span>
+                            {% elseif user.email == 'admin@luxwatch.com' %}
+                                <span class="badge badge-admin">Admin Principal</span>
+                            {% else %}
+                                {% if 'ROLE_ADMIN' in user.roles %}
+                                    <span class="badge badge-admin">Administrateur</span>
+                                {% else %}
+                                    <span class="badge badge-user">Utilisateur</span>
+                                {% endif %}
+                            {% endif %}
+                        </td>
+                        <td>
+                            <div class="actions">
+                                {% if user.email != app.user.email and user.email != 'admin@luxwatch.com' %}
+                                    <a href="{{ path('admin_toggle_role', {'id': user.id}) }}" class="btn btn-role">
+                                        {% if 'ROLE_ADMIN' in user.roles %}
+                                            <i class="fas fa-user-minus"></i> Retirer admin
+                                        {% else %}
+                                            <i class="fas fa-user-plus"></i> Rendre admin
+                                        {% endif %}
+                                    </a>
+                                    <a href="{{ path('admin_delete_user', {'id': user.id}) }}" 
+                                       class="btn btn-delete"
+                                       onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur ?')">
+                                        <i class="fas fa-trash"></i> Supprimer
+                                    </a>
+                                {% endif %}
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

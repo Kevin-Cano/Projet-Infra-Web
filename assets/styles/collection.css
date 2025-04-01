@@ -1,0 +1,253 @@
+.collection-container {
+    max-width: 1200px;
+    margin: 6rem auto 4rem;
+    padding: 0 2rem;
+}
+
+.collection-container h1 {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 3rem;
+    color: #2D3C4C;
+    font-family: 'Playfair Display', serif;
+}
+
+.collection-container select {
+    width: 150px;
+    padding: 10px;
+    font-weight: bold;
+}
+
+.div-select{
+    display: flex;
+    justify-content: center;
+    gap:20%;
+    margin-bottom: 50px;
+}
+
+.watches-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.collection-container .watch-card {
+    background: white;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    transition: transform 0.3s ease;
+}
+
+.collection-container .watch-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.collection-container .watch-image {
+    width: 100%;
+    height: 200px;
+    object-fit: contain;
+    padding: 1rem;
+}
+
+.collection-container .watch-info {
+    padding: 0 1.5rem 1.5rem;
+}
+
+.collection-container .watch-info img{
+    width: 30px;
+    height: auto;
+    float: right;
+    margin-top: 12px;
+}
+
+.collection-container .watch-name {
+    font-size: 1.25rem;
+    color: #2D3C4C;
+    margin-bottom: 0.5rem;
+    font-family: 'Playfair Display', serif;
+    display: inline-block;
+}
+
+.collection-container .watch-reference {
+    color: #666;
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+}
+
+.collection-container .watch-price {
+    font-size: 1.5rem;
+    color: #2D3C4C;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    display: inline-block;
+}
+
+.collection-container .stock-status {
+    font-size: 0.9rem;
+    font-weight: 500;
+    padding: 0.4rem 0.8rem;
+    border-radius: 20px;
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+    display: inline-block;
+}
+
+.collection-container .in-stock {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+}
+
+.collection-container .out-of-stock {
+    background-color: #ffebee;
+    color: #c62828;
+}
+
+.collection-container .details-button {
+    display: block;
+    width: 100%;
+    padding: 0.8rem;
+    background-color: #2D3C4C;
+    color: white;
+    text-decoration: none;
+    border: none;
+    border-radius: 0 0 15px 15px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    text-align: center;
+}
+
+.collection-container .details-button:hover {
+    background-color: #3d4f63;
+} 
+
+/* Style pour le petit bouton cœur sur les cartes */
+.heart-button-small {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(255, 255, 255, 0.8);
+    border: none;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.heart-button-small:hover {
+    transform: scale(1.1);
+    background: rgba(255, 255, 255, 0.9);
+}
+
+.heart-button-small .heart-icon {
+    font-size: 1.2rem;
+    color: #ccc;
+    transition: all 0.3s ease;
+}
+
+.heart-button-small.in-wishlist .heart-icon {
+    color: #dc3545;
+} 
+
+/* Style pour le bouton cœur sur les cartes */
+.watch-image-container {
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px;
+}
+
+.heart-button-small {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(255, 255, 255, 0.8);
+    border: none;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.heart-button-small:hover {
+    transform: scale(1.1);
+    background: rgba(255, 255, 255, 0.9);
+}
+
+.heart-button-small .heart-icon {
+    font-size: 1.2rem;
+    color: #ccc;
+    transition: all 0.3s ease;
+}
+
+.heart-button-small.in-wishlist .heart-icon {
+    color: #dc3545;
+} 
+
+/* Styles pour les filtres */
+.filter-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    margin: 2rem 0;
+    padding: 1rem;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.filter-group {
+    flex: 1;
+    min-width: 200px;
+    max-width: 300px;
+}
+
+.filter-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: #2D3C4C;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.filter-group select {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    background-color: white;
+    font-size: 0.95rem;
+    color: #495057;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%232D3C4C' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 16px;
+}
+
+.filter-group select:hover {
+    border-color: #adb5bd;
+}
+
+.filter-group select:focus {
+    border-color: #2D3C4C;
+    box-shadow: 0 0 0 0.2rem rgba(45, 60, 76, 0.25);
+    outline: none;
+} 

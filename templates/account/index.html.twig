@@ -1,0 +1,285 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon compte - LuxWatch{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('styles/profile.css') }}">
+{% endblock %}
+
+{% block header %}{% endblock %}
+{% block footer %}{% endblock %}
+
+{% block body %}
+<div class="account-container">
+    <div class="account-header">
+        <a href="{{ path('app_home') }}" class="back-button">
+            <i class="fas fa-arrow-left"></i> Retour au site
+        </a>
+        <h1>Mon compte</h1>
+    </div>
+
+    <div class="account-layout">
+        <!-- Sidebar -->
+        <div class="account-sidebar">
+            <div class="user-profile">
+                <div class="profile-image">
+                    <img src="{{ user.profilePicture ? asset('uploads/profile/' ~ user.profilePicture) : asset('images/default-profile.png') }}" 
+                         alt="Photo de profil">
+                </div>
+
+                <h2 class="username">{{ user.userName }}</h2>
+            </div>
+
+            <nav class="account-nav">
+                <button class="nav-button active" data-section="personal-info">
+                    <i class="fas fa-user"></i>
+                    Informations personnelles
+                </button>
+                <button class="nav-button" data-section="funds-info">
+                    <i class="fas fa-wallet"></i>
+                    Ajout de fonds
+                </button>
+                <button class="nav-button" data-section="security-info">
+                    <i class="fas fa-shield-alt"></i>
+                    Sécurité
+                </button>
+                <button class="nav-button" data-section="my-watches">
+                    <i class="fas fa-watch"></i>
+                    Mes montres publiées
+                </button>
+                <button class="nav-button" data-section="orders-info">
+                    <i class="fas fa-shopping-bag"></i>
+                    Mes commandes
+                </button>
+            </nav>
+        </div>
+
+        <!-- Main Content -->
+        <div class="account-content">
+            <!-- Personal Info Section -->
+            <section id="personal-info" class="content-section active">
+                <div class="section-header">
+                    <h2>Informations personnelles</h2>
+                </div>
+                
+                <div class="info-stats">
+                    <div class="stat-card">
+                        <i class="fas fa-watch"></i>
+                        <span class="stat-value">{{ user.watches|length }}</span>
+                        <span class="stat-label">Montres en vente</span>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-euro-sign"></i>
+                        <span class="stat-value">{{ user.balance|number_format(2, ',', ' ') }} €</span>
+                        <span class="stat-label">Solde disponible</span>
+                    </div>
+                </div>
+
+                <form class="info-form">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="firstName">Prénom</label>
+                            <div class="input-group">
+                                <input type="text" id="firstName" value="{{ user.firstName }}" required>
+                                <button type="button" class="edit-btn" data-field="firstName">
+                                    <i class="fas fa-pen"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="lastName">Nom</label>
+                            <div class="input-group">
+                                <input type="text" id="lastName" value="{{ user.lastName }}" required>
+                                <button type="button" class="edit-btn" data-field="lastName">
+                                    <i class="fas fa-pen"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="deliveryAddress">Adresse</label>
+                            <div class="input-group">
+                                <input type="text" id="deliveryAddress" value="{{ user.deliveryAddress }}" required>
+                                <button type="button" class="edit-btn" data-field="deliveryAddress">
+                                    <i class="fas fa-pen"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="postalCode">Code postal</label>
+                            <div class="input-group">
+                                <input type="text" id="postalCode" value="{{ user.postalCode }}" required>
+                                <button type="button" class="edit-btn" data-field="postalCode">
+                                    <i class="fas fa-pen"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="personal-info-message" class="message-container"></div>
+                </form>
+            </section>
+
+            <!-- Funds Section -->
+            <section id="funds-info" class="content-section">
+                <div class="section-header">
+                    <h2>Ajout de fonds</h2>
+                </div>
+
+                <div class="balance-card">
+                    <div class="balance-info">
+                        <span class="balance-label">Solde actuel</span>
+                        <span class="current-balance">{{ user.balance|number_format(2, ',', ' ') }} €</span>
+                    </div>
+                </div>
+
+                <div class="add-funds-form">
+                    <div class="amount-buttons">
+                        <button type="button" class="amount-btn" data-amount="50">50 €</button>
+                        <button type="button" class="amount-btn" data-amount="100">100 €</button>
+                        <button type="button" class="amount-btn" data-amount="200">200 €</button>
+                        <button type="button" class="amount-btn" data-amount="500">500 €</button>
+                    </div>
+
+                    <div class="custom-amount">
+                        <input type="number" 
+                               id="custom-amount" 
+                               min="1" 
+                               step="1" 
+                               placeholder="Montant personnalisé">
+                        <span class="currency">€</span>
+                    </div>
+
+                    <button type="button" id="add-funds-btn" class="primary-button">
+                        <i class="fas fa-plus"></i> Ajouter les fonds
+                    </button>
+                </div>
+
+                <div id="funds-message" class="message-container"></div>
+            </section>
+
+            <!-- Security Section -->
+            <section id="security-info" class="content-section">
+                <div class="section-header">
+                    <h2>Sécurité</h2>
+                </div>
+
+                <div class="security-options">
+                    <button class="security-btn" data-action="update-phone">
+                        <i class="fas fa-phone"></i>
+                        <span>Modifier le numéro de téléphone</span>
+                    </button>
+                    <button class="security-btn" data-action="update-password">
+                        <i class="fas fa-key"></i>
+                        <span>Changer le mot de passe</span>
+                    </button>
+                    <button class="security-btn danger" data-action="delete-account">
+                        <i class="fas fa-trash-alt"></i>
+                        <span>Supprimer le compte</span>
+                    </button>
+                </div>
+            </section>
+
+            <!-- Orders Section -->
+            <section id="orders-info" class="content-section">
+                <div class="section-header">
+                    <h2>Mes commandes</h2>
+                </div>
+                
+                {% if invoices is empty %}
+                    <div class="empty-orders">
+                        <p>Vous n'avez pas encore passé de commande.</p>
+                        <a href="{{ path('app_collection') }}" class="btn-shop">Découvrir notre collection</a>
+                    </div>
+                {% else %}
+                    <div class="orders-list">
+                        <div class="order-header">
+                            <div class="order-id">N° Commande</div>
+                            <div class="order-date">Date</div>
+                            <div class="order-amount">Montant</div>
+                            <div class="order-status">Statut</div>
+                            <div class="order-actions">Actions</div>
+                        </div>
+                        
+                        {% for invoice in invoices %}
+                            <div class="order-item">
+                                <div class="order-id">#{{ invoice.id }}</div>
+                                <div class="order-date">{{ invoice.createdAt|date('d/m/Y') }}</div>
+                                <div class="order-amount">{{ invoice.amount|number_format(2, ',', ' ') }} €</div>
+                                <div class="order-status">
+                                    <span class="status-badge {{ invoice.status|lower }}">{{ invoice.status }}</span>
+                                </div>
+                                <div class="order-actions">
+                                    <a href="{{ path('app_order_confirmation', {'id': invoice.id}) }}" class="btn-view-order">Détails</a>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </section>
+
+            <!-- My Watches Section -->
+            <section id="my-watches" class="content-section">
+                <div class="section-header">
+                    <h2>Mes montres publiées</h2>
+                    <a href="{{ path('app_sell') }}" class="add-watch-btn">
+                        <i class="fas fa-plus"></i> Ajouter une montre
+                    </a>
+                </div>
+                
+                {% if user.watches is empty %}
+                    <div class="empty-watches">
+                        <p>Vous n'avez pas encore publié de montres à vendre.</p>
+                        <a href="{{ path('app_sell') }}" class="btn-publish">Publier ma première montre</a>
+                    </div>
+                {% else %}
+                    <div class="watches-grid">
+                        {% for watch in user.watches %}
+                            <div class="watch-card">
+                                <div class="watch-image">
+                                    <img src="{{ watch.picture starts with 'http' or watch.picture starts with '/' ? watch.picture : asset('uploads/watch_pictures/' ~ watch.picture) }}" 
+                                         alt="{{ watch.name }}"
+                                         onerror="this.onerror=null; this.src='{{ asset('images/no-image.jpg') }}';">
+                                </div>
+                                <div class="watch-info">
+                                    <h3 class="watch-name">{{ watch.name }}</h3>
+                                    <p class="watch-price">{{ watch.price|number_format(2, ',', ' ') }} €</p>
+                                    <p class="watch-status {% if watch.stock.watchStock > 0 %}in-stock{% else %}out-of-stock{% endif %}">
+                                        {% if watch.stock.watchStock > 0 %}
+                                            En stock ({{ watch.stock.watchStock }})
+                                        {% else %}
+                                            Hors stock
+                                        {% endif %}
+                                    </p>
+                                </div>
+                                <div class="watch-actions">
+                                    <a href="{{ path('app_watch_details', {'id': watch.id}) }}" class="btn-view">
+                                        <i class="fas fa-eye"></i> Voir
+                                    </a>
+                                    <a href="{{ path('app_watch_edit', {'id': watch.id}) }}" class="btn-edit">
+                                        <i class="fas fa-pen"></i> Modifier
+                                    </a>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </section>
+        </div>
+    </div>
+    
+    <div class="logout-section">
+        <a href="{{ path('app_logout') }}" class="logout-button">
+            <i class="fas fa-sign-out-alt"></i> Se déconnecter
+        </a>
+    </div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/profile.js') }}"></script>
+{% endblock %}

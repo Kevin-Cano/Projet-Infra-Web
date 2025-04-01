@@ -1,0 +1,114 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}LuxWatch - Montres de Luxe{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/base.js') }}"></script>
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('styles/home.css') }}">
+{% endblock %}
+
+{% block body %}
+    <section class="hero-section">
+        <div class="video-background">
+            <video autoplay muted loop playsinline>
+                <source src="{{ asset('videos/accueil.webm') }}" type="video/webm">
+            </video>
+        </div>
+        <div class="overlay"></div>
+        <div class="content">
+            <h1>Découvrez notre collection de montres de luxe</h1>
+            <p class="subtitle">L'élégance au poignet, la précision dans chaque détail</p>
+            <a href="{{ path('app_collection') }}" class="cta-button">Voir la collection</a>
+        </div>
+    </section>
+
+    <section class="best-sellers">
+        <h2 class="section-title">Les Plus Vendus</h2>
+        <div id="watchCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                {% for watches_chunk in watches|batch(3) %}
+                    <div class="carousel-item {{ loop.first ? 'active' : '' }}">
+                        <div class="watches-grid">
+                            {% for watch in watches_chunk %}
+                                <div class="watch-card">
+                                    <img src="{{ watch.picture }}" alt="{{ watch.name }}">
+                                    <div class="watch-info">
+                                        <h5>{{ watch.name }}</h5>
+                                        <p class="watch-reference">Réf. {{ watch.reference }}</p>
+                                        <p class="watch-price">{{ watch.price|number_format(0, ',', ' ') }} €</p>
+                                        <a href="{{ path('app_watch_details', {'id': watch.id}) }}" class="btn-details">
+                                            Voir les détails
+                                        </a>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <button class="carousel-control-prev" type="button" data-bs-target="#watchCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#watchCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon"></span>
+            </button>
+        </div>
+    </section>
+
+    <section class="particuliers">
+        <h2 class="particuliers-title">Espace Particuliers</h2>
+        <p class="particuliers-subtitle">Achetez et vendez vos montres de luxe entre passionnés</p>
+        {% if app.user %}
+            <a href="{{ path('app_sell') }}" class="sell-button">Vendre ma montre</a>
+        {% else %}
+            <a href="{{ path('app_login') }}" class="sell-button">Se connecter pour vendre</a>
+        {% endif %}
+        
+        <div class="watches-grid">
+            {% for watch in privateWatches %}
+                <div class="watch-card">
+                    {% if watch.picture %}
+                        <img src="{{ asset('uploads/watch_pictures/' ~ watch.picture) }}" alt="{{ watch.name }}">
+                    {% else %}
+                        <img src="{{ asset('images/no-image.jpg') }}" alt="Image non disponible">
+                    {% endif %}
+                    <h3 class="watch-title">{{ watch.name }}</h3>
+                    <p class="watch-state">État: {{ watch.state }}</p>
+                    <p class="watch-price">Prix: {{ watch.price|number_format(0, ',', ' ') }} €</p>
+                    <p class="watch-seller">{{ watch.author.userName }}</p>
+                    <a href="{{ path('app_watch_details', {'id': watch.id}) }}" class="contact-button">Voir les détails</a>
+                </div>
+            {% else %}
+                <div class="no-watches-message">
+                    <p>Aucune montre de particulier disponible pour le moment.</p>
+                </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <section class="team">
+        <h2 class="team-title">Notre Équipe</h2>
+        <div class="team-grid">
+            <div class="team-card">
+                <h3 class="team-member-name">Maxime Chort</h3>
+                <p class="team-member-role">Développeur</p>
+            </div>
+            
+            <div class="team-card">
+                <h3 class="team-member-name">Brendan Visine</h3>
+                <p class="team-member-role">Développeur</p>
+            </div>
+            
+            <div class="team-card">
+                <h3 class="team-member-name">Kevin Cano</h3>
+                <p class="team-member-role">Développeur</p>
+            </div>
+        </div>
+    </section>
+{% endblock %}

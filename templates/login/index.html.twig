@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+{% block header %} {% endblock %}
+{% block footer %} {% endblock %}
+
+{% block title %}Connexion{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('styles/login.css') }}">
+{% endblock %}
+
+{% block body %}
+    <div class="wrapper">
+        <h1>Connexion</h1>
+        
+        <form method="post" action="{{ path('app_login') }}">
+            {% if error %}
+                <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+            {% endif %}
+
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+            
+            <div class="form-group">
+                <label for="email">Email / Nom d'utilisateur</label>
+                <input type="text" id="email" name="email" value="{{ last_username }}" required autofocus placeholder="Entrez votre email ou nom d'utilisateur">
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Mot de passe</label>
+                <input type="password" id="password" name="password" autocomplete="current-password" required placeholder="Entrez votre mot de passe">
+            </div>
+            
+            <div class="checkbox-container">
+                <input type="checkbox" id="remember_me" name="_remember_me" checked>
+                <label for="remember_me">Se souvenir de moi</label>
+            </div>
+            
+            <button type="submit">Connexion</button>
+        </form>
+
+        <div class="register-link">
+            <p>Pas encore inscrit ? <a href="{{ path('app_register') }}">Créer un compte</a></p>
+        </div>
+    </div>
+{% endblock %}

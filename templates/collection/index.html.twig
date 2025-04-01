@@ -1,0 +1,112 @@
+{% extends 'base.html.twig' %}
+
+
+{% block title %}Collection - LuxWatch{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('styles/collection.css') }}">
+{% endblock %}
+
+{% block body %}
+    <div class="collection-container">
+        <h1>Notre Collection</h1>
+        
+        <div class="filter-container">
+            <div class="filter-group">
+                <label for="price-filter">Prix</label>
+                <select id="price-filter" class="form-control">
+                    <option value="all" {% if priceFilter == 'all' %}selected{% endif %}>Prix</option>
+                    <option value="less1000" {% if priceFilter == 'less1000' %}selected{% endif %}>Moins de 1000</option>
+                    <option value="1000to5000" {% if priceFilter == '1000to5000' %}selected{% endif %}>Entre 1000 et 5000</option>
+                    <option value="5000to10000" {% if priceFilter == '5000to10000' %}selected{% endif %}>Entre 5000 et 10 000</option>
+                    <option value="more10000" {% if priceFilter == 'more10000' %}selected{% endif %}>Plus de 10 000</option>
+                </select>
+            </div>
+            
+            <div class="filter-group">
+                <label for="material-filter">Matériau</label>
+                <select id="material-filter" class="form-control">
+                    <option value="all" {% if materialFilter == 'all' %}selected{% endif %}>Tous les matériaux</option>
+                    <option value="Acier" {% if materialFilter == 'Acier' %}selected{% endif %}>Acier</option>
+                    <option value="Or" {% if materialFilter == 'Or' %}selected{% endif %}>Or</option>
+                    <option value="Titane" {% if materialFilter == 'Titane' %}selected{% endif %}>Titane</option>
+                    <option value="Céramique" {% if materialFilter == 'Céramique' %}selected{% endif %}>Céramique</option>
+                    <option value="Carbone" {% if materialFilter == 'Carbone' %}selected{% endif %}>Carbone</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="watches-grid" id="watches-container">
+            {% for watch in pagination %}
+                <div class="watch-card" data-price="{{ watch.price }}">
+                    <div class="watch-image-container">
+                        {% if app.user %}
+                            <button class="heart-button-small" data-id="{{ watch.id }}">
+                                <i class="far fa-heart heart-icon"></i>
+                            </button>
+                        {% endif %}
+                        <a href="{{ path('app_watch_details', {'id': watch.id}) }}">
+                            <img 
+                                src="{{ watch.picture starts with 'http' or watch.picture starts with '/' ? watch.picture : asset('uploads/watch_pictures/' ~ watch.picture) }}" 
+                                alt="{{ watch.name }}" 
+                                class="watch-image"
+                                onerror="this.onerror=null; this.src='{{ asset('images/no-image.jpg') }}';"
+                            >
+                        </a>
+                    </div>
+                    <div class="watch-info">
+                        <h2 class="watch-name">{{ watch.name }}</h2>
+                        <p class="watch-reference">Réf: {{ watch.reference }}</p>
+                        <p class="watch-price">{{ watch.price }} €</p>
+                        <p class="stock-status {% if watch.stock.watchStock <= 0 %}out-of-stock{% else %}in-stock{% endif %}">
+                            {% if watch.stock.watchStock <= 0 %}
+                                Hors stock
+                            {% else %}
+                                En stock
+                            {% endif %}
+                        </p>
+                    </div>
+                    <a href="{{ path('app_watch_details', {'id': watch.id}) }}" class="details-button">Voir les détails</a>
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class="pagination">
+            {{ knp_pagination_render(pagination) }}
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/collection.js') }}"></script>
+    <script src="{{ asset('js/wishlist.js') }}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const priceFilter = document.getElementById('price-filter');
+            const materialFilter = document.getElementById('material-filter');
+            
+            priceFilter.addEventListener('change', function() {
+                applyFilters();
+            });
+            
+            materialFilter.addEventListener('change', function() {
+                applyFilters();
+            });
+            
+            function applyFilters() {
+                const selectedPrice = priceFilter.value;
+                const selectedMaterial = materialFilter.value;
+                
+                let url = '{{ path('app_collection') }}?price=' + selectedPrice;
+                
+                if (selectedMaterial !== 'all') {
+                    url += '&material=' + selectedMaterial;
+                }
+                
+                window.location.href = url;
+            }
+        });
+    </script>
+{% endblock %}
