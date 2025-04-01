@@ -29,9 +29,9 @@ L'architecture comprend les éléments suivants :
 - **MariaDB** comme base de données partagée entre les instances Symfony.
 - **HAProxy** comme load balancer qui répartit les requêtes HTTP entre les 2 instances Symfony.
 
-Voici une vue d'ensemble de l'architecture :
-
 ---
+
+## Voici une vue d'ensemble de l'architecture :
 
 ## **🔧 Étapes du projet**
 
