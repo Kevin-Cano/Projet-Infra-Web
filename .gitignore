@@ -56,5 +56,97 @@
 .env.local
 .idea
 var/
-/public/
 /migrations
+/public/uploads/
+
+###> symfony/framework-bundle ###
+/.env.local
+/.env.local.php
+/.env.*.local
+/config/secrets/prod/prod.decrypt.private.php
+/public/bundles/
+/var/
+var/
+###< symfony/framework-bundle ###
+
+###> symfony/phpunit-bridge ###
+/var/
+.phpunit
+.phpunit.result.cache
+###< symfony/phpunit-bridge ###
+
+###> phpunit/phpunit ###
+/phpunit.xml
+.phpunit.result.cache
+###< phpunit/phpunit ###
+
+###> lexik/jwt-authentication-bundle ###
+/config/jwt/*.pem
+###< lexik/jwt-authentication-bundle ###
+
+###> nelmio/cors-bundle ###
+/nelmio_cors.dist.yml
+###< nelmio/cors-bundle ###
+
+###> php-cs-fixer ###
+/.php-cs-fixer.cache
+/.php-cs-fixer.php
+###< php-cs-fixer ###
+
+###> phpstan/phpstan ###
+/phpstan.neon
+/phpstan-baseline.neon
+###< phpstan/phpstan ###
+
+###> rector/rector ###
+/rector.php
+###< rector/rector ###
+
+###> symfony/maker-bundle ###
+/phpunit.xml.dist
+###< symfony/maker-bundle ###
+
+###> symfony/webpack-encore-bundle ###
+/node_modules/
+/public/build/
+npm-debug.log
+yarn-error.log
+###< symfony/webpack-encore-bundle ###
+
+###> symfony/phpunit-bridge ###
+.phpunit
+.phpunit.result.cache
+###< symfony/phpunit-bridge ###
+
+###> lexik/jwt-authentication-bundle ###
+/config/jwt/*.pem
+###< lexik/jwt-authentication-bundle ###
+
+###> nelmio/cors-bundle ###
+/nelmio_cors.dist.yml
+###< nelmio/cors-bundle ###
+
+###> php-cs-fixer ###
+/.php-cs-fixer.cache
+/.php-cs-fixer.php
+###< php-cs-fixer ###
+
+###> phpstan/phpstan ###
+/phpstan.neon
+/phpstan-baseline.neon
+###< phpstan/phpstan ###
+
+###> rector/rector ###
+/rector.php
+###< rector/rector ###
+
+###> symfony/maker-bundle ###
+/phpunit.xml.dist
+###< symfony/maker-bundle ###
+
+###> symfony/webpack-encore-bundle ###
+/node_modules/
+/public/build/
+npm-debug.log
+yarn-error.log
+###< symfony/webpack-encore-bundle ###

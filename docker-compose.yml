@@ -1,10 +1,62 @@
-name: luxwatch
 services:
-  db:
-    image: mysql:8.0
+  # HAProxy Load Balancer
+  haproxy:
+    image: haproxy:2.4
+    container_name: symfony_haproxy
     ports:
-      - "3306:3306"
-    env_file: ".env.local"
+      - "80:80"
+      - "8404:8404"
+    volumes:
+      - ./haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro
+    depends_on:
+      - web1
+      - web2
+    networks:
+      - app_network
+
+  # Première instance Symfony (votre instance actuelle)
+  web1:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: symfony_web1
+    # volumes:
+    #   - ./:/var/www/html
+    environment:
+      - DATABASE_URL=mysql://symfony_user:symfony_password@db:3306/symfony_db
+    depends_on:
+      - db
+    networks:
+      - app_network
+
+  # Deuxième instance Symfony
+  web2:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: symfony_web2
+    # volumes:
+    #   - ./:/var/www/html
+    environment:
+      - DATABASE_URL=mysql://symfony_user:symfony_password@db:3306/symfony_db
+    depends_on:
+      - db
+    networks:
+      - app_network
+
+  # Base de données MySQL (conservée de votre configuration)
+  db:
+    image: mariadb:10.6
+    container_name: symfony_db
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: symfony_db
+      MYSQL_USER: symfony_user
+      MYSQL_PASSWORD: symfony_password
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - app_network
 
   phpmyadmin:
     image: phpmyadmin:latest
@@ -13,3 +65,12 @@ services:
     environment:
       PMA_HOST: db
     env_file: ".env.local"
+    networks:
+      - app_network
+
+networks:
+  app_network:
+    driver: bridge
+
+volumes:
+  db_data:
